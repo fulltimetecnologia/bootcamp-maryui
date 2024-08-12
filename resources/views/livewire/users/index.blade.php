@@ -4,6 +4,7 @@ use App\Models\{User, Country};
 use Illuminate\Support\Collection;
 use Livewire\Volt\Component;
 use Mary\Traits\Toast;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithPagination; 
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -64,6 +65,19 @@ new class extends Component {
             'countries' => Country::all(), 
         ];
     }
+
+    public function countAppliedFilters(): int
+    {
+        $count = 0;
+        if ($this->search) {
+            $count++;
+        }
+        if ($this->country_id) {
+            $count++;
+        }
+        return $count;
+    }
+
 }; ?>
 
 <div>
@@ -72,7 +86,7 @@ new class extends Component {
             <x-input placeholder="Search..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
         </x-slot:middle>
         <x-slot:actions>
-            <x-button label="Filters" @click="$wire.drawer = true" responsive icon="o-funnel" />
+            <x-button label="Filters" @click="$wire.drawer = true" responsive icon="o-funnel" :badge="$this->countAppliedFilters()" />
         </x-slot:actions>
     </x-header>
     <x-card>
