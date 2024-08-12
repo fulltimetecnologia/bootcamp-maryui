@@ -33,6 +33,7 @@ new class extends Component {
 
     public function delete(User $user): void
     {
+        $user->languages()->detach();
         $user->delete();
         $this->warning("$user->name deleted", 'Good bye!', position: 'toast-bottom');
     }

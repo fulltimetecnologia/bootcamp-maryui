@@ -20,6 +20,9 @@ new class extends Component {
  
     #[Rule('required|email')]
     public string $email = '';
+
+    #[Rule('required')]
+    public string $password = '';
  
     #[Rule('sometimes')]
     public ?int $country_id = null;
@@ -30,6 +33,7 @@ new class extends Component {
     #[Rule('sometimes')]
     public ?string $bio = null;
 
+    public bool $showPassword = false;
 
     public function mount(): void
     {
@@ -60,7 +64,14 @@ new class extends Component {
 
         $this->success('User updated with success.', redirectTo: '/users');
     }
-}; ?>
+
+    public function togglePasswordVisibility()
+    {
+        $this->showPassword = !$this->showPassword;
+    }
+};
+
+?>
 
 <div>
     <x-header title="Update {{ $user->name }}" separator /> 
@@ -75,6 +86,20 @@ new class extends Component {
                 </x-file>
                 <x-input label="Name" wire:model="name" />
                 <x-input label="Email" wire:model="email" />
+                <div class="relative">
+                    <x-input 
+                        label="Password" 
+                        type="{{ $showPassword ? 'text' : 'password' }}" 
+                        wire:model="password"
+                    />
+                    <button 
+                        type="button" 
+                        wire:click="togglePasswordVisibility" 
+                        class="absolute right-2 top-[65%] transform -translate-y-1/2"
+                    >
+                        <x-icon name="{{ $showPassword ? 'o-eye-slash' : 'o-eye' }}" />
+                    </button>
+                </div>
                 <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="---" />
             </div>
         </div>

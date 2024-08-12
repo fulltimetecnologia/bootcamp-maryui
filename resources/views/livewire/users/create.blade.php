@@ -63,7 +63,9 @@ new class extends Component {
     {
         $this->showPassword = !$this->showPassword;
     }
-}; ?>
+};
+
+?>
 
 <div>
     <x-header title="Create " separator /> 
@@ -78,7 +80,7 @@ new class extends Component {
                 </x-file>
                 <x-input label="Name" wire:model="name" />
                 <x-input label="Email" wire:model="email" />
-                 <div class="relative">
+                <div class="relative">
                     <x-input 
                         label="Password" 
                         type="{{ $showPassword ? 'text' : 'password' }}" 
